@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  meteorologydb:
+    container_name: meteorologydb
+    image: postgres:12.2
+    environment:
+      POSTGRES_DB: db_meteorology
+      POSTGRES_USER: meteorology_user
+      POSTGRES_PASSWORD: meteorology_pass
+
+  meteweb:
+    container_name: meteweb
+    build: .
+    command: python manage.py runserver 0.0.0.0:2020
+    volumes:
+      - .:/code
+    ports:
+      - "2020:2020"
+    depends_on:
+      - meteorologydb
+    env_file:
+      - .env.dev

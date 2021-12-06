@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <section style="padding-top: 50px">
+        <div class="container">
+            <div class="columns" style="display: flex;justify-content: end;width: 89%;">
+                <div>
+                    <form method="GET" action="{% url 'list' %}">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <label for="id_name"></label>
+                                <input type="text" name="name" class="input" placeholder="City name" maxlength="25" required="" id="id_name">
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-info">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div></div>
+
+        </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                    <table id="keywords">
+                        <thead>
+                        <tr>
+                            <th>City</th>
+                            <th>Temperature</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Icon</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in object_list %}
+                            <tr style="font-size: 16px">
+                                <td style="text-align: left; padding: 16px;">{{ item.city.name }}</td>
+                                <td>{{ item.temperature }}</td>
+                                <td>° {{ item.get_type_display }}</td>
+                                <td>{{ item.description }}</td>
+                                <td style="padding: 0">
+                                    <img style="width: 45%" src="https://openweathermap.org/img/w/{{ item.icon }}.png"
+                                         alt="Image">
+                                </td>
+                                <td>{{ item.created_at }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
