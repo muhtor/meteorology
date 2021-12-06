@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
-from .models import Forecast
+from .models import City, Forecast
 from .utils import WeatherController
 from .forms import CityForm
 
@@ -23,8 +23,14 @@ class AddNewRegionView(View, WeatherController):
         return render(request, 'weather/add-region.html', context)
 
     def post(self, request):
-        form = self.form(request.POST)
-        city = form.save()
+        city_name = request.POST['name']
+        qs = City.objects.filter(name__icontains=city_name)
+        if qs.exists():
+            city = qs.first()
+            form = self.form(request.POST)
+        else:
+            form = self.form(request.POST)
+            city = form.save()
         city_weather = self.fetch_one(city=city)
         context = {'city_weather': city_weather, 'form': form, 'is_added': True}
         return render(request, 'weather/add-region.html', context)

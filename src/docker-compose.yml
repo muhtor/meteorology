@@ -12,7 +12,8 @@ services:
   meteweb:
     container_name: meteweb
     build: .
-    command: python manage.py runserver 0.0.0.0:2020
+    command: python manage.py runserver 0.0.0.0:2020 --noreload
+#    command: python manage.py runserver 0.0.0.0:2020
     volumes:
       - .:/code
     ports:
